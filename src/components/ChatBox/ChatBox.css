@@ -1,0 +1,26 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  min-height: 300px;
+  min-width: 200px;
+  background: #eeeeee;
+  position: relative;
+  overflow: hidden;
+}
+
+.main{
+    position: absolute;
+    top: 0px;
+    bottom: 50px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.footer{
+    position: absolute;
+    height: 50px;
+    bottom: 0px;
+    width: 100%;
+    overflow: hidden;
+    transition: all ease-out .2s;
+}
