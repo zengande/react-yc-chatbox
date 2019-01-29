@@ -8,6 +8,7 @@ export interface InputAreaProps {
     onSubmit?: (value: string) => boolean;
     onCollapse?: (state: boolean) => void;
     onSwitch?: () => void;
+    onSubmited?: () => void;
 }
 
 export enum InputTypes {
@@ -20,7 +21,8 @@ class InputArea extends React.Component<InputAreaProps, any> {
         super(props);
         this.state = {
             text: '',
-            type: InputTypes.Text
+            type: InputTypes.Text,
+            talking: false
         }
     }
 
@@ -31,12 +33,16 @@ class InputArea extends React.Component<InputAreaProps, any> {
     }
 
     textOnKeyUp(e: any) {
-        if (e.keyCode === 13) {
-            const { onSubmit } = this.props;
-            let result = onSubmit && onSubmit(e.target.value);
-            result && this.setState({
-                text: ''
-            });
+        let value = e.target.value;
+        if (e.keyCode === 13 && value.trim() !== '') {
+            const { onSubmit, onSubmited } = this.props;
+            let result = onSubmit && onSubmit(value);
+            if (result) {
+                this.setState({
+                    text: ''
+                });
+                onSubmited && onSubmited();
+            }
         }
     }
 
@@ -46,14 +52,14 @@ class InputArea extends React.Component<InputAreaProps, any> {
         })
     }
 
-    textOnFocus(){
+    textOnFocus() {
         this.cloesMenuPanel();
     }
 
     cloesMenuPanel() {
         const { onSwitch } = this.props;
         onSwitch && onSwitch()
-        
+
     }
 
     switchInput() {
@@ -65,8 +71,23 @@ class InputArea extends React.Component<InputAreaProps, any> {
         this.cloesMenuPanel();
     }
 
-    render() {
+    getTextareaStyle() {
         const { type } = this.state;
+        return type === InputTypes.Text ?
+            { marginRight: '60px' } :
+            { marginRight: '50px' };
+    }
+
+    getVoiceButtonClass() {
+        const { talking } = this.state;
+        if (talking) {
+            return `${styles.voice} ${styles.active}`
+        }
+        return styles.voice;
+    }
+
+    render() {
+        const { type, talking } = this.state;
         const { placeholder, closed, onCollapse } = this.props;
 
         return (
@@ -74,7 +95,7 @@ class InputArea extends React.Component<InputAreaProps, any> {
                 <button className={styles.leftbutton} onClick={this.switchInput.bind(this)}>
                     <IconFont type={type === InputTypes.Text ? 'yuyin' : 'jianpan'} style={{ fontSize: '22px' }} />
                 </button>
-                <div className={styles.textarea}>
+                <div className={styles.textarea} style={this.getTextareaStyle()}>
                     {
                         type === InputTypes.Text ?
                             <input
@@ -84,7 +105,14 @@ class InputArea extends React.Component<InputAreaProps, any> {
                                 value={this.state.text}
                                 className={styles.textinput}
                                 placeholder={placeholder} /> :
-                            <div className={styles.voice}>按住 说话</div>
+                            <button
+                                className={this.getVoiceButtonClass()}
+                                onMouseDown={() => { this.setState({ talking: true }) }}
+                                onTouchStart={() => { this.setState({ talking: true }) }}
+                                onMouseUp={() => { this.setState({ talking: false }) }}
+                                onTouchEnd={() => { this.setState({ talking: false }) }}
+                                onContextMenu={(e) => { e.preventDefault(); return false }}
+                            >{talking ? '松开 结束' : '按住 说话'}</button>
                     }
 
                 </div>
@@ -95,7 +123,7 @@ class InputArea extends React.Component<InputAreaProps, any> {
                         <IconFont type="addition1" style={{ fontSize: '22px', color: '#0d9fc1' }} />
                     }
                 </button>
-            </div>
+            </div >
         )
     }
 }

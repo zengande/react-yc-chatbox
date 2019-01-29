@@ -1,27 +1,76 @@
-.message{
-    padding: 10px 15px;
-    margin: 20px;
-    margin-top: 0px;
-    background: #ffffff;
-    color: #000;
-    display: inline-block;
-    clear: both;
-    border-radius: 5px;
-    border: 1px solid #e4e4e4;
-}
-
-.message.text{
-    word-wrap: break-word;
-    max-width: 60%;
-    text-align: left;
+.container{
+    margin-bottom: 0px;
 }
 
 .self{
-    float: right;
+    text-align: right;
+    
+}
+
+.other{
+    text-align: left;
+}
+
+.system{
+    text-align: center;
+}
+
+.messages{
+    padding: 15px;
+}
+
+.message{
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background: #ffffff;
+    color: #000;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #e4e4e4;
+    max-width: 80%;
+}
+
+.self .message{
     background: #23ace2;
     color: #fff;
 }
 
-.other{
+.body{
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.footer{
+    font-size: 10px;
+    padding: 5px 0px 0px;
+}
+
+.avatar{
     float: left;
+    
+}
+
+.notice{
+    padding: 10px 0px;
+    font-size: 14px;
+    color: #888888;
+}
+
+.status{
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: #000;
+    vertical-align: bottom;
+    margin: 3px;
+    margin-bottom: 23px;
+}
+
+.status.fail{
+    background: #b52323;
+}
+
+.status.success{
+    background: #28ce28;
 }

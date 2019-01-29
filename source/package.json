@@ -24,6 +24,7 @@
         "awesome-typescript-loader": "^5.2.1",
         "babel-loader": "^8.0.5",
         "css-loader": "^2.1.0",
+        "moment": "^2.24.0",
         "react": "^16.7.0",
         "react-dom": "^16.7.0",
         "source-map-loader": "^0.2.4",

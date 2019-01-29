@@ -1,11 +1,11 @@
 .container {
-  width: 100vw;
-  height: 100vh;
-  min-height: 300px;
-  min-width: 200px;
-  background: #eeeeee;
-  position: relative;
-  overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    min-height: 300px;
+    min-width: 200px;
+    background: #eeeeee;
+    position: relative;
+    overflow: hidden;
 }
 
 .main{
@@ -16,6 +16,10 @@
     overflow-y: scroll;
 }
 
+.main::-webkit-scrollbar {
+    display: none;
+}
+
 .footer{
     position: absolute;
     height: 50px;
@@ -23,4 +27,23 @@
     width: 100%;
     overflow: hidden;
     transition: all ease-out .2s;
+}
+
+.newmessage{
+    position: absolute;
+    bottom: 55px;
+    border:none;
+    left: 50%;
+    width: 120px;
+    height: 24px;
+    margin-left: -60px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #ffffff;
+    background: #0c7098;
+    transition: all ease-out .2s;
+}
+
+.newmessage:focus{
+    outline: none;
 }
