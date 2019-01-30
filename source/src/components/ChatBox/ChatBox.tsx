@@ -4,11 +4,12 @@ import FootMenu from '../FootMenu';
 import MessageBox from '../MessageBox';
 import { IMessageBoxProps } from '../MessageBox/MessageBox';
 import IconFont from '../IconFont';
+import { Menu } from '../FootMenu/Menu';
 let styles = require('./ChatBox.css');
 
 interface IChatBoxPros {
     loading: boolean;
-    menu?: React.ReactNode;
+    menus?: Menu[];
     inputProps?: InputAreaProps;
     messageProps?: IMessageBoxProps;
 }
@@ -65,6 +66,7 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         if (canScroll) {
             const main = document.getElementsByClassName(styles.main)[0];
             this.scrollTo(main, main.scrollHeight, 300);
+            this.setState({ hasNewMessage: false });
         }
     }
 
@@ -76,25 +78,32 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         return { bottom: '55px' };
     }
 
+    closeFootMenu() {
+        this.setState({ closed: true });
+    }
+
     render() {
-        const { messageProps, inputProps } = this.props;
+        const { messageProps, inputProps, menus } = this.props;
         const { closed, hasNewMessage } = this.state;
         let mainStyle = !closed ? ({ bottom: '250px' }) : undefined;
         let footerStyle = !closed ? ({ height: '250px' }) : undefined;
 
         return (
             <div className={styles.container}>
-                <div className={styles.main} style={mainStyle}>
+                <div className={styles.main}
+                    style={mainStyle}
+                    onClick={() => { if (this.state.closed === false) { this.closeFootMenu() } }}>
                     <MessageBox {...messageProps} />
                 </div>
                 <div className={styles.footer} style={footerStyle}>
                     <InputArea {...inputProps}
                         closed={this.state.closed}
                         onCollapse={(state) => { this.setState({ closed: state }) }}
-                        onSwitch={() => { this.setState({ closed: true }) }}
+                        onSwitch={() => { this.closeFootMenu() }}
                         onSubmited={() => this.scrollBottom()}
                     />
-                    <FootMenu style={{ height: '200px' }} />
+                    <FootMenu style={{ height: '200px' }}
+                        menus={menus} />
                 </div>
                 {
                     hasNewMessage &&

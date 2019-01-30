@@ -47,7 +47,11 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
     }
 
     renderMessageContent(message: Message) {
-
+        // 语音消息
+        if (message.type === MessageTypes.Voice) {
+            var objectUrl = window.URL.createObjectURL(message.data);
+            return (<audio controls src={objectUrl} />);
+        }
         return message.content;
     }
 
@@ -125,7 +129,6 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
 
     render() {
         const { messages } = this.props;
-        console.log(messages);
         return (
             <div className={styles.messages}>
                 {messages.map(message => this.renderMessage(message))}

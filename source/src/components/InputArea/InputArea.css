@@ -71,3 +71,18 @@
     background: #d2d2d2;
     color: #000;
 }
+
+.send{
+    height: 40px;
+    width: 40px;
+    border: none;
+    margin-right: 5px;
+    background: transparent;
+    position: absolute;
+    right: 0px;
+    top: 6px;
+}
+
+.send:focus{
+    outline: none;
+}
