@@ -48,25 +48,22 @@ class InputArea extends React.Component<InputAreaProps, any> {
     textOnKeyUp(e: any) {
         let value = e.target.value;
         if (e.keyCode === 13 && value.trim() !== '') {
-            const { onSubmit, onSubmited } = this.props;
-            let result = onSubmit && onSubmit(value, MessageTypes.Text);
-            if (result) {
-                this.setState({
-                    text: ''
-                });
-                onSubmited && onSubmited();
-            }
+            this.submit();
         }
     }
 
     textOnChange(e: any) {
         let value = e.target.value;
 
-        if (value.trim() !== '' &&
-            this.state.showSendButton === false) {
-            this.setState({ showSendButton: true })
-        } else if (this.state.showSendButton) {
-            this.setState({ showSendButton: false })
+        if (value.trim() !== '') {
+            if (this.state.showSendButton === false) {
+                this.setState({ showSendButton: true })
+            }
+
+        } else {
+            if (this.state.showSendButton) {
+                this.setState({ showSendButton: false })
+            }
         }
 
         this.setState({
@@ -81,7 +78,6 @@ class InputArea extends React.Component<InputAreaProps, any> {
     cloesMenuPanel() {
         const { onSwitch } = this.props;
         onSwitch && onSwitch()
-
     }
 
     switchInput() {
@@ -134,6 +130,19 @@ class InputArea extends React.Component<InputAreaProps, any> {
             });
     }
 
+    submit() {
+        const { text } = this.state;
+        const { onSubmit, onSubmited } = this.props;
+        let result = onSubmit && onSubmit(text, MessageTypes.Text);
+        if (result) {
+            this.setState({
+                text: '',
+                showSendButton: false
+            });
+            onSubmited && onSubmited();
+        }
+    }
+
     render() {
         const { type, talking, showSendButton, canRecording } = this.state;
         const { placeholder, closed, onCollapse } = this.props;
@@ -168,7 +177,8 @@ class InputArea extends React.Component<InputAreaProps, any> {
                 </div>
                 {
                     showSendButton ?
-                        <button className={styles.send}>发送</button> :
+                        <button className={styles.send}
+                            onClick={this.submit.bind(this)}>发送</button> :
                         <button className={styles.rightbutton}
                             onClick={() => { this.setState({ type: InputTypes.Text }); onCollapse && onCollapse(!closed || false) }}>
                             {closed ?
