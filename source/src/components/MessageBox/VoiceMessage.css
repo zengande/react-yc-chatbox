@@ -1,0 +1,22 @@
+.container{
+    min-width: 50px;
+    padding: 4px 8px;
+}
+
+.audio{
+    display: none;
+}
+
+.timespan{
+    margin: 0px 5px;
+}
+
+.playing{
+    color: #ffaf7f;
+}
+
+.text{
+    margin: 0px;
+    font-size: 12px;
+    margin-top: 3px;
+}

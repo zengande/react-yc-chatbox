@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Message, MessageRoles, MessageTypes, MessageStatus } from './Message';
 import 'moment/locale/zh-cn';
 import common from '../../utils/common';
+import VoiceMessage from './VoiceMessage';
 const moment = require('moment');
 const styles = require('./MessageBox.css');
 
@@ -49,8 +50,7 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
     renderMessageContent(message: Message) {
         // 语音消息
         if (message.type === MessageTypes.Voice) {
-            var objectUrl = window.URL.createObjectURL(message.data);
-            return (<audio controls src={objectUrl} />);
+            return (<VoiceMessage message={message} />);
         }
         return message.content;
     }

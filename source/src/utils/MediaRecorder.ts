@@ -11,6 +11,11 @@ interface IAudioData {
     reset: () => void;
 }
 
+export interface AudioBlob {
+    duration: number;
+    blob: Blob
+}
+
 class MediaRecorder {
     audioInput: MediaStreamAudioSourceNode;
     recorder: ScriptProcessorNode;
@@ -137,7 +142,6 @@ class MediaRecorder {
         this.recorder.onaudioprocess = function (e) {
             $this.audioData.input(e.inputBuffer.getChannelData(0));
             //record(e.inputBuffer.getChannelData(0));
-            console.log(e);
         }
 
     }
@@ -156,10 +160,31 @@ class MediaRecorder {
     }
 
 
-    //获取音频文件
-    getBlob() {
+    //获取音频文件与时长
+    getBlobAsync() {
         this.stop();
-        return this.audioData.encodeWAV();
+        const blob = this.audioData.encodeWAV();
+        const tempAudio = document.createElement('audio');
+        const durationP = new Promise<AudioBlob>(resolve => {
+            tempAudio.addEventListener('loadedmetadata', () => {
+                // Chrome bug: https://bugs.chromium.org/p/chromium/issues/detail?id=642012
+                if (tempAudio.duration === Infinity) {
+                    tempAudio.currentTime = Number.MAX_SAFE_INTEGER
+                    tempAudio.ontimeupdate = () => {
+                        tempAudio.ontimeupdate = null
+                        resolve({ blob, duration: tempAudio.duration })
+                        tempAudio.currentTime = 0
+                    }
+                }
+                // Normal behavior
+                else
+                    resolve({ blob, duration: tempAudio.duration })
+            })
+        });
+
+        tempAudio.src = window.URL.createObjectURL(blob);
+
+        return durationP;
     }
 
     reset() {
@@ -169,37 +194,44 @@ class MediaRecorder {
 
     //回放
     play(audio: HTMLAudioElement) {
-        audio.src = window.URL.createObjectURL(this.getBlob());
+        this.getBlobAsync().then(({ blob }) => audio.src = window.URL.createObjectURL(blob))
     }
 
 
     //上传
     upload(url: string, callback: (parame: any, e: any) => void) {
         var fd = new FormData();
-        fd.append("audioData", this.getBlob());
-        var xhr = new XMLHttpRequest();
-        if (callback) {
-            xhr.upload.addEventListener("progress", function (e) {
-                callback('uploading', e);
-            }, false);
-            xhr.addEventListener("load", function (e) {
-                callback('ok', e);
-            }, false);
-            xhr.addEventListener("error", function (e) {
-                callback('error', e);
-            }, false);
-            xhr.addEventListener("abort", function (e) {
-                callback('cancel', e);
-            }, false);
-        }
-        xhr.open("POST", url);
-        xhr.send(fd);
+        this.getBlobAsync()
+            .then(data => {
+                const { blob } = data;
+                fd.append("audioData", blob);
+                var xhr = new XMLHttpRequest();
+                if (callback) {
+                    xhr.upload.addEventListener("progress", function (e) {
+                        callback('uploading', e);
+                    }, false);
+                    xhr.addEventListener("load", function (e) {
+                        callback('ok', e);
+                    }, false);
+                    xhr.addEventListener("error", function (e) {
+                        callback('error', e);
+                    }, false);
+                    xhr.addEventListener("abort", function (e) {
+                        callback('cancel', e);
+                    }, false);
+                }
+                xhr.open("POST", url);
+                xhr.send(fd);
+            })
+            .catch(reason => {
+                throw reason;
+            });
+
     }
     // 获取录音机
-    static get(callback: (rec: MediaRecorder) => void, config?: any) {
+    static get(callback: (rec: MediaRecorder) => void, error?: (errMessage: string) => void, config?: any) {
         const throwError = (message: string) => {
-            alert(message);
-            throw message;
+            error && error(message);
         }
 
         if (callback) {

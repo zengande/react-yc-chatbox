@@ -8,16 +8,16 @@ import { Menu } from '../FootMenu/Menu';
 let styles = require('./ChatBox.css');
 
 interface IChatBoxPros {
-    loading: boolean;
-    menus?: Menu[];
-    inputProps?: InputAreaProps;
-    messageProps?: IMessageBoxProps;
+    loading: boolean;   // 加载状态
+    menus?: Menu[]; // 菜单
+    inputProps?: InputAreaProps;    // 输入框配置
+    messageProps?: IMessageBoxProps;    // 消息配置
 }
 
 interface IChatBoxState {
-    closed: boolean;
-    canScroll: boolean;
-    hasNewMessage: boolean;
+    closed: boolean;    // 脚部菜单栏关闭状态
+    canScroll: boolean; // 允许滚动
+    hasNewMessage: boolean; // 新消息状态
 }
 
 class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
@@ -34,6 +34,12 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         loading: false
     }
 
+    /**
+     * 滚动
+     * @param element 滚动元素
+     * @param to 位置
+     * @param duration 时间 
+     */
     scrollTo(element: Element, to: number, duration: number) {
         var start = element.scrollTop,
             change = to - start,
@@ -61,6 +67,9 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         animateScroll();
     }
 
+    /**
+     * 滚动消息栏到最底部
+     */
     scrollBottom() {
         const { canScroll } = this.state;
         if (canScroll) {

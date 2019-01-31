@@ -1,13 +1,13 @@
 import * as React from 'react';
 import IconFont from '../IconFont';
-import MediaRecorder from '../../utils/MediaRecorder';
+import MediaRecorder, { AudioBlob } from '../../utils/MediaRecorder';
 import { MessageTypes } from '../MessageBox/Message';
 const styles = require('./InputArea.css');
 
 export interface InputAreaProps {
     placeholder?: string;
     closed?: boolean
-    onSubmit?: (value: string | Blob, type: MessageTypes) => boolean;
+    onSubmit?: (value: string | AudioBlob, type: MessageTypes) => boolean;
     onCollapse?: (state: boolean) => void;
     onSwitch?: () => void;
     onSubmited?: () => void;
@@ -27,11 +27,15 @@ class InputArea extends React.Component<InputAreaProps, any> {
             text: '',
             type: InputTypes.Text,
             talking: false,
-            showSendButton: false
+            showSendButton: false,
+            canRecording: false
         }
 
         MediaRecorder.get((rec) => {
+            this.setState({ canRecording: rec.canRecording });
             this._mediaRecorder = rec;
+        }, (e) => {
+            console.error(e);
         });
     }
 
@@ -113,26 +117,32 @@ class InputArea extends React.Component<InputAreaProps, any> {
     endRecord() {
         console.log('endRecord');
         this.setState({ talking: false });
-        var blob = this._mediaRecorder.getBlob();
-        console.log(blob)
-        
-        this._mediaRecorder.reset();
+        this._mediaRecorder.getBlobAsync()
+            .then(data => {
+                this._mediaRecorder.reset();
 
-        // todo:发送语音消息
-        const { onSubmit, onSubmited } = this.props;
-        let result = onSubmit && onSubmit(blob, MessageTypes.Voice);
-        if (result) {
-            onSubmited && onSubmited();
-        }
+                if (data.duration < 1) {
+                    console.warn('时间太短，少于1s');
+                    return;
+                }
+                // 发送语音消息
+                const { onSubmit, onSubmited } = this.props;
+                let result = onSubmit && onSubmit(data, MessageTypes.Voice);
+                if (result) {
+                    onSubmited && onSubmited();
+                }
+            });
     }
 
     render() {
-        const { type, talking, showSendButton } = this.state;
+        const { type, talking, showSendButton, canRecording } = this.state;
         const { placeholder, closed, onCollapse } = this.props;
 
         return (
             <div className={styles.inputarea}>
-                <button className={styles.leftbutton} onClick={this.switchInput.bind(this)}>
+                <button className={styles.leftbutton}
+                    onClick={this.switchInput.bind(this)}
+                    disabled={!canRecording} >
                     <IconFont type={type === InputTypes.Text ? 'yuyin' : 'jianpan'} style={{ fontSize: '22px' }} />
                 </button>
                 <div className={styles.textarea} style={this.getTextareaStyle()}>
