@@ -33,8 +33,6 @@ class VoiceMessage extends React.Component<IVoiceMessageProps, IVoiceMessageStat
     }
 
     shouldComponentUpdate(nextPorps: IVoiceMessageProps, nextState: IVoiceMessageState) {
-        console.log(this.state);
-        console.log(nextState);
         return nextState.duration !== this.state.duration ||
             nextState.playing !== this.state.playing;
     }
@@ -69,6 +67,7 @@ class VoiceMessage extends React.Component<IVoiceMessageProps, IVoiceMessageStat
     }
 
     controlVoicePlay() {
+        console.log(this._voice);
         this._voice.play();
     }
 

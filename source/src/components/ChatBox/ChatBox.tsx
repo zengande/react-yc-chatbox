@@ -5,13 +5,20 @@ import MessageBox from '../MessageBox';
 import { IMessageBoxProps } from '../MessageBox/MessageBox';
 import IconFont from '../IconFont';
 import { Menu } from '../FootMenu/Menu';
-let styles = require('./ChatBox.css');
+import Header from '../Header/Header';
+import Spin from '../Spin/Spin';
+import common from '../../utils/common';
+import { IHeaderProps } from '../Header/Header';
+const styles = require('./ChatBox.css');
 
 interface IChatBoxPros {
+    id?: string;
     loading: boolean;   // 加载状态
     menus?: Menu[]; // 菜单
+    headerProps?: IHeaderProps;
     inputProps?: InputAreaProps;    // 输入框配置
     messageProps?: IMessageBoxProps;    // 消息配置
+    displayHeader?: boolean
 }
 
 interface IChatBoxState {
@@ -29,42 +36,10 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
             hasNewMessage: false
         }
     }
-
+    
     static defaultProps = {
-        loading: false
-    }
-
-    /**
-     * 滚动
-     * @param element 滚动元素
-     * @param to 位置
-     * @param duration 时间 
-     */
-    scrollTo(element: Element, to: number, duration: number) {
-        var start = element.scrollTop,
-            change = to - start,
-            currentTime = 0,
-            increment = 20;
-        //t = current time
-        //b = start value
-        //c = change in value
-        //d = duration
-        const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
-            t /= d / 2;
-            if (t < 1) return c / 2 * t * t + b;
-            t--;
-            return -c / 2 * (t * (t - 2) - 1) + b;
-        };
-
-        const animateScroll = function () {
-            currentTime += increment;
-            const val = easeInOutQuad(currentTime, start, change, duration);
-            element.scrollTop = val;
-            if (currentTime < duration) {
-                setTimeout(animateScroll, increment);
-            }
-        };
-        animateScroll();
+        loading: true,
+        displayHeader: true
     }
 
     /**
@@ -74,7 +49,7 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         const { canScroll } = this.state;
         if (canScroll) {
             const main = document.getElementsByClassName(styles.main)[0];
-            this.scrollTo(main, main.scrollHeight, 300);
+            common.scrollTo(main, main.scrollHeight, 300);
             this.setState({ hasNewMessage: false });
         }
     }
@@ -87,27 +62,47 @@ class ChatBox extends React.Component<IChatBoxPros, IChatBoxState>{
         return { bottom: '55px' };
     }
 
+    getMainStyle() {
+        const { closed } = this.state;
+        const { displayHeader } = this.props;
+
+        let mainStyle: React.CSSProperties = {};
+        if (!closed) {
+            mainStyle.bottom = '250px';
+        }
+        if (displayHeader) {
+            mainStyle.top = '50px';
+        }
+        return mainStyle;
+    }
+
     closeFootMenu() {
         this.setState({ closed: true });
     }
 
     render() {
-        const { messageProps, inputProps, menus } = this.props;
+        const { messageProps, inputProps, headerProps, menus, displayHeader, loading, id } = this.props;
         const { closed, hasNewMessage } = this.state;
-        let mainStyle = !closed ? ({ bottom: '250px' }) : undefined;
+
         let footerStyle = !closed ? ({ height: '250px' }) : undefined;
 
         return (
             <div className={styles.container}>
+                {displayHeader && <Header className={styles.header} {...headerProps} />}
                 <div className={styles.main}
-                    style={mainStyle}
+                    id={id}
+                    style={this.getMainStyle()}
                     onClick={() => { if (this.state.closed === false) { this.closeFootMenu() } }}>
-                    <MessageBox {...messageProps} />
+                    {
+                        loading ?
+                            <Spin /> :
+                            <MessageBox {...messageProps} />
+                    }
                 </div>
                 <div className={styles.footer} style={footerStyle}>
                     <InputArea {...inputProps}
                         closed={this.state.closed}
-                        onCollapse={(state) => { this.setState({ closed: state }) }}
+                        onCollapse={(state) => { this.setState({ closed: state }); !state && this.scrollBottom() }}
                         onSwitch={() => { this.closeFootMenu() }}
                         onSubmited={() => this.scrollBottom()}
                     />

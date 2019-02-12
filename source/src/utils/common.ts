@@ -32,6 +32,43 @@ export default {
         }
 
         return result;
+    },
+
+    /**
+ * 滚动
+ * @param element 滚动元素
+ * @param to 位置
+ * @param duration 时间 
+ */
+    scrollTo(element: Element, to: number, duration: number) {
+        if (!element || element === null) {
+            return;
+        }
+
+        var start = element.scrollTop,
+            change = to - start,
+            currentTime = 0,
+            increment = 20;
+        //t = current time
+        //b = start value
+        //c = change in value
+        //d = duration
+        const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        };
+
+        const animateScroll = function () {
+            currentTime += increment;
+            const val = easeInOutQuad(currentTime, start, change, duration);
+            element.scrollTop = val;
+            if (currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+        animateScroll();
     }
 
 }

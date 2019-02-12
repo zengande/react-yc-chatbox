@@ -3,9 +3,21 @@
     height: 100vh;
     min-height: 300px;
     min-width: 200px;
-    background: #eeeeee;
+    background: #f3f3f3;
     position: relative;
     overflow: hidden;
+}
+
+.header{
+    position: absolute;
+    width: 100%;
+    background: transparent;
+    top: 0px;
+    left: 0px;
+    height: 50px;
+    border-color: #dedede;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
 }
 
 .main{
@@ -14,6 +26,7 @@
     bottom: 50px;
     width: 100%;
     overflow-y: scroll;
+    transition: all ease-out .3s;
 }
 
 .main::-webkit-scrollbar {
@@ -26,7 +39,8 @@
     bottom: 0px;
     width: 100%;
     overflow: hidden;
-    transition: all ease-out .2s;
+    transition: all ease-out .3s;
+    background: transparent;
 }
 
 .newmessage{

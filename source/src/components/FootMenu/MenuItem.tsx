@@ -17,7 +17,7 @@ class MenuItem extends React.Component<IMenuItemProps> {
             </div>
         )
         return (
-            <div className={styles.menu}>
+            <div className={styles.menu} title={menu.title ? menu.title : menu.text}>
                 {menu.link ?
                     <a href={menu.link}>{menuContent}</a> :
                     menuContent

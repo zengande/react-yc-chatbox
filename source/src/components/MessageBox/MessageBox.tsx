@@ -7,10 +7,10 @@ const moment = require('moment');
 const styles = require('./MessageBox.css');
 
 export interface IMessageBoxProps {
-    messages: Message[],
-    dispalyTime?: boolean,
-    displayAvatar?: boolean,
-    displayStatus?: boolean,
+    messages: Message[];
+    dispalyTime?: boolean;
+    displayAvatar?: boolean;
+    displayStatus?: boolean;
     messageTemplate?: (message: Message) => React.ReactNode;
 }
 
@@ -60,7 +60,7 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
         if (message.type === MessageTypes.Notice) {
             return (
                 <div key={key} className={styles.notice}>
-                    {message.content}
+                    <p>{message.content}</p>
                 </div>
             );
         } else {

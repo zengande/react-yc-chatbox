@@ -73,8 +73,13 @@
 
 .notice{
     padding: 10px 0px;
-    font-size: 14px;
     color: #888888;
+}
+
+.notice p{
+    margin: 0px;
+    font-size: 12px;
+    text-align: center;
 }
 
 .status{
