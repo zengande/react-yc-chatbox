@@ -3,5 +3,6 @@ export interface Menu {
     text: string;
     link?: string;
     title?: string;
-    onClick?: () => void;
+    disabled?: boolean;
+    onClick?: () => boolean;
 }

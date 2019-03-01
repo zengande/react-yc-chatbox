@@ -1,44 +1,42 @@
 # react-yc-chatbox
-使用方法
+
+配置
 ``` 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            messages: [
-                { content: (<b>hello</b>), role: MessageRoles.Other, type: MessageTypes.Html, datetime: new Date('2018-12-12 15:45:56') },
-                { content: '以上是历史消息', role: MessageRoles.System, type: MessageTypes.Notice, datetime: new Date('2018-12-12 15:45:56') }
-            ],
-            loading: false
-        }
-    }
 
-    onSubmit(value, type) {
-        console.log(value);
-        const content = type === MessageTypes.Voice ? '' : value;
-        // todo : upload voice data
-        this.setState((preState) =>
-            ({ messages: preState.messages.concat({ content: content, data: value, type: type, role: MessageRoles.Self, datetime: new Date() }) }));
+id                  string | undefined              消息栏id
+loading             boolean | undefined             加载状态
+menus               Menu[] | undefined              底部伸缩菜单
+headerProps         IHeaderProps | undefined        头部配置
+inputProps          InputAreaProps | undefined      输入框配置
+messageProps        IMessageBoxProps | undefined    消息框配置
+displayHeader       boolean | undefined             是否显示头部栏
 
-        return true;
-    }
+```
 
-    render() {
-        const menus = [
-            { icon: 'tupian', text: '图片', onClick: () => { alert('图片') } },
-            { icon: 'file', text: '文件', onClick: () => { alert('文件') } },
-            { icon: 'yuyinshuru', text: '语音输入', onClick: () => { alert('语音输入') } },
-        ]
-        return (
-            <div className="App">
-                <ChatBox
-                    menus={menus}
-                    messageProps={{ messages: this.state.messages, dispalyTime:false, hasNewMessage: true, displayAvatar: false, displayStatus: false }}
-                    loading={this.state.loading}
-                    inputProps={{ onSubmit: this.onSubmit.bind(this) }} />
-            </div>
-        );
-    }
-}
+头部属性
+```
+title               React.ReactNode | undefined     头部内容
+className           string | undefined              头部class
+```
 
+消息框属性
+```
+dispalyTime         boolean | undefined                                 是否显示时间
+displayAvatar       boolean | undefined                                 是否显示头像                   
+displayStatus       boolean | undefined                                 是否显示消息状态
+messages            Message[]                                           消息
+messageTemplate     (message: Message) => React.ReactNode | undefined   消息模板
+```
+
+输入框属性
+```
+placeholder         string | undefined                                  输入框提示内容
+closed              boolean | undefined                                 指示底部伸缩栏关闭状态
+disabled            boolean | undefined                                 指示输入框是否可用
+voiceEnabled        boolean | undefined                                 指示语音对话是否可用
+onSubmit            (value: string | AudioBlob, type: MessageTypes) => boolean;    
+onCollapse          (state: boolean) => void;
+onSwitch            () => void;
+onSubmited          () => void;
+onRecordFailed      (e: IRecordError) => void;
 ```

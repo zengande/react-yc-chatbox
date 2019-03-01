@@ -5,17 +5,20 @@ const styles = require('./FootMenu.css');
 
 export interface IFootMenuProps {
     style?: React.CSSProperties;
-    menus?: Menu[]
+    menus?: Menu[],
+    closed?: () => void;
 }
 
 class FootMenu extends React.PureComponent<IFootMenuProps> {
     render() {
-        const { style, menus } = this.props;
+        const { style, menus, closed } = this.props;
         return (
             <div style={style} className={styles.container}>
                 {
                     menus && menus.length > 0 ?
-                        menus.map((menu, index) => (<MenuItem key={index} menu={menu} />)) :
+                        menus.map((menu, index) => (<MenuItem key={index} menu={menu} onClicked={(close) => {
+                            close && closed && closed();
+                        }} />)) :
                         <p>无菜单项</p>
                 }
             </div>

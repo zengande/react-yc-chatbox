@@ -1,12 +1,26 @@
 import * as React from 'react';
 import './IconFont.css';
 
-class IconFont extends React.Component<{ type: string, style?: React.CSSProperties | undefined }>{
+export interface IconFontProps {
+    type: string;
+    style?: React.CSSProperties;
+    spin?: boolean;
+}
+
+class IconFont extends React.Component<IconFontProps>{
+    static defaultProps = {
+        spin: false
+    }
 
     render() {
-        const { type, style } = this.props;
+        const { type, style, spin } = this.props;
+        let className = `iconfont icon-${type}`;
+        if (spin) {
+            className += ' yc-spin';
+        }
+
         return (
-            <i className={`iconfont icon-${type}`} style={style}></i>
+            <i className={className} style={style}></i>
         )
     }
 }

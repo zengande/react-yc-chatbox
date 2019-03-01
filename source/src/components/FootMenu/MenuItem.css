@@ -2,6 +2,12 @@
     display: inline-block;
     width: 25%;
     height: 50%;
+    cursor: pointer;
+}
+
+.menu.disabled{
+    color: #8a8a8a;
+    cursor: not-allowed
 }
 
 .content{
@@ -28,4 +34,13 @@
     line-height: 30px;
     margin: 0px;
     font-size: 12px;
+}
+
+.link{
+    color: #000000;
+    text-decoration: none;
+}
+
+.link:link{
+    text-decoration: none;
 }

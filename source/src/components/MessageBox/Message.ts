@@ -12,6 +12,9 @@ export interface Message {
     name?: string;
     status?: MessageStatus;
     statusMsg?: string;
+    voice?: any;
+    feedback?: boolean;
+    feedbackData?: any
 }
 
 export enum MessageRoles {
@@ -21,6 +24,7 @@ export enum MessageRoles {
 }
 
 export enum MessageStatus {
+    Sending = 0,
     Success = 2,
     Fail = 4
 }

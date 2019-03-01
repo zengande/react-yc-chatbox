@@ -3,23 +3,32 @@ import { Message, MessageRoles, MessageTypes, MessageStatus } from './Message';
 import 'moment/locale/zh-cn';
 import common from '../../utils/common';
 import VoiceMessage from './VoiceMessage';
+import Spin from '../spin/Spin';
+import FeedbackTooltip from '../feedbacktooltip/FeedbackTooltip';
 const moment = require('moment');
 const styles = require('./MessageBox.css');
 
 export interface IMessageBoxProps {
     messages: Message[];
-    dispalyTime?: boolean;
-    displayAvatar?: boolean;
+    conversion?: boolean;
+    displayTitle?: boolean;
     displayStatus?: boolean;
+    displayText?: boolean;
+    feedback?: boolean;
+    playRecord?: (mediaId: string, callback?: () => void) => void;
+    // onConversion?: (mediaId: string, duration: number, callback?: (text: string) => void) => string;
     messageTemplate?: (message: Message) => React.ReactNode;
+    onItemSelected?: (message: Message, index: number) => boolean;
 }
 
 class MessageBox extends React.PureComponent<IMessageBoxProps> {
     static defaultProps = {
         messages: [],
-        dispalyTime: true,
-        displayAvatar: false,
-        displayStatus: false
+        displayStatus: false,
+        conversion: false,
+        displayText: true,
+        displayTitle: true,
+        feedback: false
     }
 
     getClassNames(role: MessageRoles) {
@@ -41,20 +50,37 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
         return className;
     }
 
-    getMessageStatus(status?: MessageStatus) {
-        return status === MessageStatus.Fail ?
-            `${styles.status} ${styles.fail}` :
-            `${styles.status} ${styles.success}`
-    }
-
+    /**渲染消息主体内容 */
     renderMessageContent(message: Message) {
+        const { playRecord, conversion, displayText } = this.props;
         // 语音消息
         if (message.type === MessageTypes.Voice) {
-            return (<VoiceMessage message={message} />);
+            return (
+                <VoiceMessage message={message}
+                    playRecord={playRecord ? playRecord : () => { }}
+                    conversion={conversion || false}
+                    displayText={displayText}
+                // onConversion={onConversion}
+                />
+            );
         }
         return message.content;
     }
 
+    /**渲染消息反馈菜单气泡 */
+    renderFeedbackPopover(message: Message) {
+        /* <button className={styles.feedback}>
+                <IconFont type="more" />
+            </button> */
+        const { onItemSelected } = this.props;
+        if (message.feedback) {
+            return <FeedbackTooltip message={message}
+                onItemSelected={onItemSelected} />
+        }
+        return;
+    }
+
+    /**渲染消息组件 */
     renderMessage(message: Message) {
         const key = message.id ? message.id : common.guid();
         if (message.type === MessageTypes.Notice) {
@@ -64,67 +90,43 @@ class MessageBox extends React.PureComponent<IMessageBoxProps> {
                 </div>
             );
         } else {
-            return message.role === MessageRoles.Self ?
-                this.renderSelfMessage(key, message) :
-                this.renderOtherMessage(key, message);
+            const { displayStatus, messageTemplate, displayTitle, feedback } = this.props;
+            return (
+                <div className={this.getClassNames(message.role)} key={key}>
+                    {
+                        displayTitle &&
+                        <p className={styles.header}>{message.name}<time className={styles.time}>{moment(message.datetime).calendar()}</time></p>
+                    }
+                    {
+                        message.role === MessageRoles.Self && displayStatus && this.renderMesasgeStatus(message)
+                    }
+                    <div className={styles.message}>
+                        <div className={styles.body}>
+                            {messageTemplate ? messageTemplate(message) : this.renderMessageContent(message)}
+                        </div>
+                        {message.additional}
+                    </div>
+                    {
+                        message.role === MessageRoles.Other && feedback && this.renderFeedbackPopover(message)
+                    }
+                </div>
+            );
         }
     }
 
-    renderSelfMessage(key: string, message: Message) {
-        const { dispalyTime, displayAvatar, displayStatus, messageTemplate } = this.props;
+    renderMesasgeStatus(message: Message): React.ReactNode {
+        switch (message.status) {
+            case MessageStatus.Sending:
+                return (<Spin className={styles.sending} scale={.7} />);
+            case MessageStatus.Success:
+                return <span className={`${styles.status} ${styles.success}`}></span>;
+            case MessageStatus.Fail:
+                return <span className={`${styles.status} ${styles.fail}`}></span>;
+            default:
+                break;
+        }
+        return;
 
-        return (
-            <div className={this.getClassNames(message.role)} key={key}>
-                {
-                    displayStatus &&
-                    <span className={this.getMessageStatus(message.status)}></span>
-                }
-                <div className={styles.message}>
-                    <div className={styles.body}>
-                        {messageTemplate ? messageTemplate(message) : this.renderMessageContent(message)}
-                    </div>
-                    {message.additional}
-                    {
-                        dispalyTime &&
-                        <div className={styles.footer}>
-                            <time>{moment(message.datetime).fromNow()}</time>
-                        </div>
-                    }
-                </div>
-                {
-                    displayAvatar &&
-                    <div className={styles.avatar}>AVATAR</div>
-                }
-            </div>
-        )
-    }
-
-    renderOtherMessage(key: string, message: Message) {
-        const { dispalyTime, displayAvatar, displayStatus, messageTemplate } = this.props;
-        return (
-            <div className={this.getClassNames(message.role)} key={key}>
-                {
-                    displayAvatar &&
-                    <div className={styles.avatar}>AVATAR</div>
-                }
-                <div className={styles.message}>
-                    <div className={styles.body}>
-                        {messageTemplate ? messageTemplate(message) : this.renderMessageContent(message)}
-                    </div>
-                    {message.additional}
-                    {
-                        dispalyTime &&
-                        <div className={styles.footer}>
-                            <time>{moment(message.datetime).fromNow()}</time>
-                        </div>
-                    }
-                </div>
-                {
-                    displayStatus &&
-                    <span className={this.getMessageStatus(message.status)}></span>
-                }
-            </div>
-        )
     }
 
     render() {

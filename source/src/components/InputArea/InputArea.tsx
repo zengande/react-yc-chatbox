@@ -1,6 +1,6 @@
 import * as React from 'react';
 import IconFont from '../IconFont';
-import MediaRecorder, { AudioBlob } from '../../utils/MediaRecorder';
+// import { AudioBlob } from '../../utils/MediaRecorder';
 import { MessageTypes } from '../MessageBox/Message';
 // import { debounce } from 'ts-debounce';
 const styles = require('./InputArea.css');
@@ -9,11 +9,14 @@ export interface InputAreaProps {
     placeholder?: string;
     closed?: boolean;
     disabled?: boolean;
-    onSubmit?: (value: string | AudioBlob, type: MessageTypes) => boolean;
+    voiceEnabled?: boolean;
+    onSubmit?: (value: string, type: MessageTypes) => boolean;
     onCollapse?: (state: boolean) => void;
     onSwitch?: () => void;
     onSubmited?: () => void;
     onRecordFailed?: (e: IRecordError) => void;
+    onRecordStart?: () => void;
+    onRecordEnded?: () => void;
 }
 
 export enum InputTypes {
@@ -27,8 +30,7 @@ interface IRecordError {
 }
 
 class InputArea extends React.Component<InputAreaProps, any> {
-    _mediaRecorder: MediaRecorder;
-
+    // _mediaRecorder: MediaRecorder;
     constructor(props: InputAreaProps) {
         super(props);
         this.state = {
@@ -39,23 +41,25 @@ class InputArea extends React.Component<InputAreaProps, any> {
             canRecording: false
         }
 
-        MediaRecorder.get((rec) => {
-            // console.log(rec.canRecording);
-            this.setState({ canRecording: true });
-            this._mediaRecorder = rec;
-        }, (e) => {
-            console.error(e);
-        });
+        // MediaRecorder.get((rec) => {
+        //     // console.log(rec.canRecording);
+        //     this.setState({ canRecording: true });
+        //     this._mediaRecorder = rec;
+        // }, (e) => {
+        //     console.error(e);
+        // });
     }
 
     static defaultProps = {
         placeholder: '快来和我聊天吧~',
+        voiceEnabled: true,
         onSubmit: (value: string) => true,
         onRecordFailed: (e: IRecordError) => {
             console.log(e);
         },
         closed: true,
-        disable: false
+        disable: false,
+        maxDuration: 60
     }
 
     textOnKeyUp(e: any) {
@@ -96,18 +100,18 @@ class InputArea extends React.Component<InputAreaProps, any> {
     switchInput() {
         this.setState((preState: any) =>
             (preState.type === InputTypes.Text ?
-                { type: InputTypes.Voice } :
-                { type: InputTypes.Text })
+                { type: InputTypes.Voice, text: '', showSendButton: false } :
+                { type: InputTypes.Text, text: '', showSendButton: false })
         );
         this.cloesMenuPanel();
     }
 
-    getTextareaStyle() {
-        const { type } = this.state;
-        return type === InputTypes.Text ?
-            { marginRight: '60px' } :
-            { marginRight: '50px' };
-    }
+    // getTextareaStyle() {
+    //     const { type } = this.state;
+    //     return type === InputTypes.Text ?
+    //         { marginRight: '60px' } :
+    //         { marginRight: '50px' };
+    // }
 
     getVoiceButtonClass() {
         const { talking } = this.state;
@@ -118,34 +122,44 @@ class InputArea extends React.Component<InputAreaProps, any> {
     }
 
     startRecord() {
-        if (this._mediaRecorder) {
-            console.log('startRecord');
-            this.setState({ talking: true });
-            this._mediaRecorder.reset();
-            this._mediaRecorder.start();
+        this.setState({ talking: true });
+        const { onRecordStart } = this.props;
+        if (onRecordStart) {
+            onRecordStart();
         }
+        // if (this._mediaRecorder) {
+        //     console.log('startRecord');
+        //     this.setState({ talking: true });
+        //     this._mediaRecorder.reset();
+        //     this._mediaRecorder.start();
+        // }
     }
 
     endRecord() {
-        if (this._mediaRecorder) {
-            console.log('endRecord');
-            this.setState({ talking: false });
-
-            this._mediaRecorder.getBlobAsync()
-                .then(data => {
-                    // 发送语音消息
-                    const { onSubmit, onSubmited, onRecordFailed } = this.props;
-                    if (data.duration < 1) {
-                        onRecordFailed && onRecordFailed({ code: 'TimeIsTooShort', message: '说话时间太短！' });
-                        return;
-                    }
-
-                    let result = onSubmit && onSubmit(data, MessageTypes.Voice);
-                    if (result) {
-                        onSubmited && onSubmited();
-                    }
-                });
+        this.setState({ talking: false });
+        const { onRecordEnded } = this.props;
+        if (onRecordEnded) {
+            onRecordEnded();
         }
+        // if (this._mediaRecorder) {
+        //     console.log('endRecord');
+        //     this.setState({ talking: false });
+
+        //     this._mediaRecorder.getBlobAsync()
+        //         .then(data => {
+        //             // 发送语音消息
+        //             const { onSubmit, onSubmited, onRecordFailed } = this.props;
+        //             if (data.duration < 1) {
+        //                 onRecordFailed && onRecordFailed({ code: 'TimeIsTooShort', message: '说话时间太短！' });
+        //                 return;
+        //             }
+
+        //             let result = onSubmit && onSubmit(data, MessageTypes.Voice);
+        //             if (result) {
+        //                 onSubmited && onSubmited();
+        //             }
+        //         });
+        // }
     }
 
     submit() {
@@ -162,17 +176,17 @@ class InputArea extends React.Component<InputAreaProps, any> {
     }
 
     render() {
-        const { type, talking, showSendButton, canRecording } = this.state;
-        const { placeholder, closed, onCollapse, disabled } = this.props;
+        const { type, talking, showSendButton } = this.state;
+        const { placeholder, closed, onCollapse, disabled, voiceEnabled } = this.props;
 
         return (
             <div className={styles.inputarea}>
                 <button className={styles.leftbutton}
                     onClick={this.switchInput.bind(this)}
-                    disabled={!canRecording} >
+                    disabled={!voiceEnabled} >
                     <IconFont type={type === InputTypes.Text ? 'yuyin' : 'jianpan'} style={{ fontSize: '22px' }} />
                 </button>
-                <div className={styles.textarea} style={this.getTextareaStyle()}>
+                <div className={styles.textarea}>
                     {
                         type === InputTypes.Text ?
                             <input
@@ -185,6 +199,7 @@ class InputArea extends React.Component<InputAreaProps, any> {
                                 placeholder={placeholder}
                                 disabled={disabled} /> :
                             <button
+                                disabled={!voiceEnabled}
                                 className={this.getVoiceButtonClass()}
                                 // onMouseDown={this.startRecord.bind(this)}
                                 onTouchStart={this.startRecord.bind(this)}

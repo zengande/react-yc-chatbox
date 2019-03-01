@@ -1,3 +1,6 @@
+*{
+    touch-action: none;
+}
 .container {
     width: 100vw;
     height: 100vh;
@@ -26,7 +29,7 @@
     bottom: 50px;
     width: 100%;
     overflow-y: scroll;
-    transition: all ease-out .3s;
+    transition: all ease-out .2s;
 }
 
 .main::-webkit-scrollbar {
@@ -35,7 +38,7 @@
 
 .footer{
     position: absolute;
-    height: 50px;
+    /* height: 50px; */
     bottom: 0px;
     width: 100%;
     overflow: hidden;
@@ -60,4 +63,8 @@
 
 .newmessage:focus{
     outline: none;
+}
+
+.extends{
+    max-height: 50px;
 }

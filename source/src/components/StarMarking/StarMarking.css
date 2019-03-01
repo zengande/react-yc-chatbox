@@ -1,0 +1,22 @@
+.rate {
+    letter-spacing: 4px;
+    color: #FF9C00;
+    position: relative;
+    font-family: sans-serif;
+    display: inline-flex;
+    line-height: 1;
+    font-size: 20px;
+    
+  }
+  .rate_bg {
+    position: relative;
+  }
+  .bg_realrate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: width ease-in-out .3s;
+  }

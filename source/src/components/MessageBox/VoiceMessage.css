@@ -1,6 +1,11 @@
 .container{
     min-width: 50px;
     padding: 4px 8px;
+    text-align: right;
+}
+
+.container > p{
+    display: inline-block;
 }
 
 .audio{
@@ -19,4 +24,19 @@
     margin: 0px;
     font-size: 12px;
     margin-top: 3px;
+}
+
+.conversion{
+    display: inline-block;
+    border:none;
+    background: transparent;
+    padding: 0px;
+    margin-left: 10px;
+    color: #ffffff;
+}
+.conversion:focus{
+    outline: none;
+}
+.conversion:disabled{
+    color: #ccc6c6;
 }

@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add -D @types/rc-notification
+  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add -D @types/rc-animate
 
 PATH: 
-  C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Microsoft Emulator Manager\1.0\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files\Microsoft\Web Platform Installer\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\dotnet\;C:\Program Files\Microsoft VS Code\bin;C:\Go\bin;C:\Program Files\Git\cmd;C:\k8s;C:\Users\Administrator\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;F:\mysql-8.0.12-winx64\bin;C:\Program Files (x86)\Google\Chrome\Application;C:\Program File;C:\Users\Administrator\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Administrator\.dotnet\tools
+  C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Microsoft Emulator Manager\1.0\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files\Microsoft\Web Platform Installer\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\dotnet\;C:\Program Files\Microsoft VS Code\bin;C:\Go\bin;C:\Program Files\Git\cmd;C:\k8s;C:\Users\Administrator\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;F:\mysql-8.0.12-winx64\bin;C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Microsoft Emulator Manager\1.0\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Program Files\Microsoft\Web Platform Installer\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\dotnet\;C:\Program Files\Microsoft VS Code\bin;C:\Go\bin;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\Resources\bin;C:\Program File;C:\Users\Administrator\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\.dotnet\tools
 
 Yarn version: 
   1.12.3
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: http://registry.npm.taobao.org/@types%2frc-notification: Not found
+  Error: http://registry.npm.taobao.org/@types%2frc-animate: Not found
       at Request.params.callback [as _callback] (C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:65894:18)
       at Request.self.callback (C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:129018:22)
       at Request.emit (events.js:182:13)
@@ -54,6 +54,9 @@ npm manifest:
           "babel-loader": "^8.0.5",
           "css-loader": "^2.1.0",
           "moment": "^2.24.0",
+          "rc-animate": "^2.6.0",
+          "rc-queue-anim": "^1.6.11",
+          "rc-tween-one": "^2.3.2",
           "react": "^16.7.0",
           "react-dom": "^16.7.0",
           "source-map-loader": "^0.2.4",
@@ -918,13 +921,6 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/acorn/download/acorn-6.0.5.tgz#81730c0815f3f3b34d8efa95cb7430965f4d887a"
     integrity sha1-gXMMCBXz87NNjvqVy3Qwll9NiHo=
   
-  add-dom-event-listener@^1.1.0:
-    version "1.1.0"
-    resolved "http://registry.npm.taobao.org/add-dom-event-listener/download/add-dom-event-listener-1.1.0.tgz#6a92db3a0dd0abc254e095c0f1dc14acbbaae310"
-    integrity sha1-apLbOg3Qq8JU4JXA8dwUrLuq4xA=
-    dependencies:
-      object-assign "4.x"
-  
   ajv-errors@^1.0.0:
     version "1.0.1"
     resolved "http://registry.npm.taobao.org/ajv-errors/download/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
@@ -1351,7 +1347,7 @@ Lockfile:
       isobject "^3.0.0"
       static-extend "^0.1.1"
   
-  classnames@2.x, classnames@^2.2.6:
+  classnames@^2.2.6:
     version "2.2.6"
     resolved "http://registry.npm.taobao.org/classnames/download/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
     integrity sha1-Q5Nb/90pHzJtrQogUwmzjQD2UM4=
@@ -2661,34 +2657,10 @@ Lockfile:
       p-locate "^3.0.0"
       path-exists "^3.0.0"
   
-  lodash._getnative@^3.0.0:
-    version "3.9.1"
-    resolved "http://registry.npm.taobao.org/lodash._getnative/download/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
-    integrity sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=
-  
   lodash.debounce@^4.0.8:
     version "4.0.8"
     resolved "http://registry.npm.taobao.org/lodash.debounce/download/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
     integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
-  
-  lodash.isarguments@^3.0.0:
-    version "3.1.0"
-    resolved "http://registry.npm.taobao.org/lodash.isarguments/download/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
-    integrity sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=
-  
-  lodash.isarray@^3.0.0:
-    version "3.0.4"
-    resolved "http://registry.npm.taobao.org/lodash.isarray/download/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
-    integrity sha1-eeTriMNqgSKvhvhEqpvNhRtfu1U=
-  
-  lodash.keys@^3.1.2:
-    version "3.1.2"
-    resolved "http://registry.npm.taobao.org/lodash.keys/download/lodash.keys-3.1.2.tgz#4dbc0472b156be50a0b286855d1bd0b0c656098a"
-    integrity sha1-TbwEcrFWvlCgsoaFXRvQsMZWCYo=
-    dependencies:
-      lodash._getnative "^3.0.0"
-      lodash.isarguments "^3.0.0"
-      lodash.isarray "^3.0.0"
   
   lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5:
     version "4.17.11"
@@ -2710,7 +2682,7 @@ Lockfile:
       es6-symbol "^3.1.1"
       object.assign "^4.1.0"
   
-  loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
+  loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
     version "1.4.0"
     resolved "http://registry.npm.taobao.org/loose-envify/download/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
     integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
@@ -3076,7 +3048,7 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/number-is-nan/download/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
     integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
   
-  object-assign@4.x, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+  object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
     version "4.1.1"
     resolved "http://registry.npm.taobao.org/object-assign/download/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
     integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -3393,11 +3365,12 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/promise-inflight/download/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
     integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
   
-  prop-types@15.x, prop-types@^15.5.10, prop-types@^15.5.8:
-    version "15.7.1"
-    resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.7.1.tgz#2fa61e0a699d428b40320127733ee2931f05d9d1"
-    integrity sha1-L6YeCmmdQotAMgEncz7ikx8F2dE=
+  prop-types@15.x, prop-types@^15.6.0, prop-types@^15.6.1:
+    version "15.7.2"
+    resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+    integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
     dependencies:
+      loose-envify "^1.4.0"
       object-assign "^4.1.1"
       react-is "^16.8.1"
   
@@ -3481,7 +3454,7 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/querystring/download/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
     integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   
-  raf@^3.4.0:
+  raf@^3.4.0, raf@~3.4.0:
     version "3.4.1"
     resolved "http://registry.npm.taobao.org/raf/download/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
     integrity sha1-B0LpmkplUvRF1z4+4DKK8P8e3jk=
@@ -3503,7 +3476,7 @@ Lockfile:
       randombytes "^2.0.5"
       safe-buffer "^5.1.0"
   
-  rc-animate@2.x:
+  rc-animate@^2.6.0:
     version "2.6.0"
     resolved "http://registry.npm.taobao.org/rc-animate/download/rc-animate-2.6.0.tgz#ca8440d042781af7a1329d84f97ea94794c5ec15"
     integrity sha1-yoRA0EJ4GvehMp2E+X6pR5TF7BU=
@@ -3515,26 +3488,25 @@ Lockfile:
       raf "^3.4.0"
       react-lifecycles-compat "^3.0.4"
   
-  rc-notification@^3.3.1:
-    version "3.3.1"
-    resolved "http://registry.npm.taobao.org/rc-notification/download/rc-notification-3.3.1.tgz#0baa3e70f8d40ab015ce8fa78c260c490fc7beb4"
-    integrity sha1-C6o+cPjUCrAVzo+njCYMSQ/HvrQ=
+  rc-queue-anim@^1.6.11:
+    version "1.6.11"
+    resolved "http://registry.npm.taobao.org/rc-queue-anim/download/rc-queue-anim-1.6.11.tgz#88ef5725f2af10a48df2c8590b1f2aff5a1eb6a2"
+    integrity sha1-iO9XJfKvEKSN8shZCx8q/1oetqI=
     dependencies:
       babel-runtime "6.x"
-      classnames "2.x"
-      prop-types "^15.5.8"
-      rc-animate "2.x"
-      rc-util "^4.0.4"
+      prop-types "^15.6.0"
+      rc-tween-one "^2.3.2"
   
-  rc-util@^4.0.4:
-    version "4.6.0"
-    resolved "http://registry.npm.taobao.org/rc-util/download/rc-util-4.6.0.tgz#ba33721783192ec4f3afb259e182b04e55deb7f6"
-    integrity sha1-ujNyF4MZLsTzr7JZ4YKwTlXet/Y=
+  rc-tween-one@^2.3.2:
+    version "2.3.2"
+    resolved "http://registry.npm.taobao.org/rc-tween-one/download/rc-tween-one-2.3.2.tgz#fcdd27828e0cbcad04b06e8f11fdee65a2b9820c"
+    integrity sha1-/N0ngo4MvK0EsG6PEf3uZaK5ggw=
     dependencies:
-      add-dom-event-listener "^1.1.0"
       babel-runtime "6.x"
-      prop-types "^15.5.10"
-      shallowequal "^0.2.2"
+      prop-types "^15.6.1"
+      raf "~3.4.0"
+      style-utils "~0.2.0"
+      tween-functions "~1.2.0"
   
   rc@^1.2.7:
     version "1.2.8"
@@ -3557,9 +3529,9 @@ Lockfile:
       scheduler "^0.12.0"
   
   react-is@^16.8.1:
-    version "16.8.1"
-    resolved "http://registry.npm.taobao.org/react-is/download/react-is-16.8.1.tgz#a80141e246eb894824fb4f2901c0c50ef31d4cdb"
-    integrity sha1-qAFB4kbriUgk+08pAcDFDvMdTNs=
+    version "16.8.2"
+    resolved "http://registry.npm.taobao.org/react-is/download/react-is-16.8.2.tgz#09891d324cad1cb0c1f2d91f70a71a4bee34df0f"
+    integrity sha1-CYkdMkytHLDB8tkfcKcaS+403w8=
   
   react-lifecycles-compat@^3.0.4:
     version "3.0.4"
@@ -3863,13 +3835,6 @@ Lockfile:
       inherits "^2.0.1"
       safe-buffer "^5.0.1"
   
-  shallowequal@^0.2.2:
-    version "0.2.2"
-    resolved "http://registry.npm.taobao.org/shallowequal/download/shallowequal-0.2.2.tgz#1e32fd5bcab6ad688a4812cb0cc04efc75c7014e"
-    integrity sha1-HjL9W8q2rWiKSBLLDMBO/HXHAU4=
-    dependencies:
-      lodash.keys "^3.1.2"
-  
   shebang-command@^1.2.0:
     version "1.2.0"
     resolved "http://registry.npm.taobao.org/shebang-command/download/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
@@ -4081,6 +4046,11 @@ Lockfile:
       loader-utils "^1.1.0"
       schema-utils "^1.0.0"
   
+  style-utils@~0.2.0:
+    version "0.2.0"
+    resolved "http://registry.npm.taobao.org/style-utils/download/style-utils-0.2.0.tgz#3d8614931b8ff6e1eea0545f1dbfaf271bb1aa7e"
+    integrity sha1-PYYUkxuP9uHuoFRfHb+vJxuxqn4=
+  
   supports-color@^5.3.0, supports-color@^5.5.0:
     version "5.5.0"
     resolved "http://registry.npm.taobao.org/supports-color/download/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -4216,6 +4186,11 @@ Lockfile:
     version "0.0.0"
     resolved "http://registry.npm.taobao.org/tty-browserify/download/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
     integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
+  
+  tween-functions@~1.2.0:
+    version "1.2.0"
+    resolved "http://registry.npm.taobao.org/tween-functions/download/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
+    integrity sha1-GuOlDnxguz3vd06scHrLynO7w/8=
   
   typedarray@^0.0.6:
     version "0.0.6"
